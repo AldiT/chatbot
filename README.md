@@ -1,5 +1,1 @@
-# seminar
-Seminar chatbot
-
-
-### Test
+# DEADLINE: 26th 12:00 CET
