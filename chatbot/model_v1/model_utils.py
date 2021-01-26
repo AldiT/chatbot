@@ -159,32 +159,38 @@ def reply(sentence, preprocess=True):
         input = sentence
     input = tf.convert_to_tensor(input)
 
+    print("After if")
+
     encoder_hidden = [tf.zeros((1, units)), tf.zeros((1, units))]
     encoder_output, encoder_h, encoder_c = encoder(input, encoder_hidden)
     start_token = tf.convert_to_tensor([tokenizer.word_index['<start>']])
     end_token = tokenizer.word_index['<end>']
 
+    print("After first block")
+
     # This time we use the greedy sampler because we want the word with the highest probability!
     # We are not generating new text, where a probability sampling would be better
     greedy_sampler = tfa.seq2seq.GreedyEmbeddingSampler()
-
+    print("Greedy sampler set")
     # Instantiate a BasicDecoder object
     decoder_instance = tfa.seq2seq.BasicDecoder(cell=decoder.attention_cell, # N
                                                 sampler=greedy_sampler, output_layer=decoder.output_layer)
+    print("Decoder sampler set")
     # Setup Memory in decoder stack
     decoder.attention_mechanism.setup_memory(encoder_output) # N
-
+    
+    print("Attention mechanism up!")
     # set decoder_initial_state
     decoder_initial_state = decoder.build_initial_state(batch_size=1, encoder_state=[encoder_h, encoder_c]) # N
-
+    print("Initial state ready")
     ### Since the BasicDecoder wraps around Decoder's rnn cell only, you have to ensure that the inputs to BasicDecoder 
     ### decoding step is output of embedding layer. tfa.seq2seq.GreedyEmbeddingSampler() takes care of this. 
     ### You only need to get the weights of embedding layer, which can be done by decoder.embedding.variables[0] and pass this callabble to BasicDecoder's call() function
 
     decoder_embedding_matrix = decoder.embedding_layer.variables[0]
-
+    print("Got embedding layer")
     outputs, _, _ = decoder_instance(decoder_embedding_matrix, start_tokens = start_token, end_token= end_token, initial_state=decoder_initial_state)
-
+    print("Done")
     result_sequence  = outputs.sample_id.numpy()
     return tokenizer.sequences_to_texts(result_sequence)[0]
 
