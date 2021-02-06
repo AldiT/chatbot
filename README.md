@@ -4,9 +4,9 @@ It is trained on dialogs from movies thus Dwayne can be poetic or temperamental 
 
 # Data
 We concatenated two open-source datasets for training of our NLP model. 
-The [rDany Chat datset] (https://www.kaggle.com/eibriel/rdany-conversations) mimics 
+The [rDany Chat datset](https://www.kaggle.com/eibriel/rdany-conversations) mimics 
 conversations of a human with his virtual companion. In addition the
-[Cornell Movie-Dialogs Corpus] (https://www.cs.cornell.edu/~cristian/Cornell_Movie-Dialogs_Corpus.html)
+[Cornell Movie-Dialogs Corpus](https://www.cs.cornell.edu/~cristian/Cornell_Movie-Dialogs_Corpus.html)
 consists of conversational exchanges from movie scripts.
 
 # Models
@@ -81,6 +81,20 @@ To run the chatbot, you need to:
 1. Clone this repo
 2. Download the ```transformer_models/with_embeddings/model_2``` folder on Gdrive
 3. Install all packages in ```requirements.txt```
-4. Make sure to place the downloaded model_2 folder on the ```chatb`ot/model_v2/``` folder
+4. Make sure to place the downloaded model_2 folder on the ```chatbot/model_v2/``` folder
 5. ```cd chatbot```
 6. ```python -m bot.bot```
+
+# The Chatbot
+During the course of the project we have implemented two versions of the actual bot. The first is 
+using a low level version of the Telegram api and is located in ```chatbot/deprecated_bot/```
+(Note that it also uses an early version of the Seq2Seq model which has a quite poor performance).
+The current chatbot uses the [Telegram ext package](https://python-telegram-bot.readthedocs.io/en/stable/telegram.html)
+which allows the usage of different handlers and therefore is more advanced.
+
+# Sample Conversations
+## 1.Seq2Seq Model
+![Seq2Seq Conversation Snippet](./assets/seq2seq_snippet.png)
+
+## 2.Transformer Model
+![Transformer Conversation Snippet](./assets/transformer_snippet.png)

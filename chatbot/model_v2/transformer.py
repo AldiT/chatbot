@@ -7,13 +7,6 @@ import tensorflow as tf
 from tensorflow.keras.preprocessing.text import Tokenizer
 import numpy as np
 import pandas as pd
-import matplotlib
-import matplotlib.pyplot as plt
-from tqdm import tqdm
-#import tensorflow_addons as tfa
-from sklearn.model_selection import train_test_split
-import time
-import unicodedata
 import os
 import sys
 import re
@@ -37,14 +30,6 @@ def decontracted(phrase):
 
 def preprocess_sentence(w):
   w = w.lower().strip()
-  # This next line is confusing!
-  # We normalize unicode data, umlauts will be converted to normal letters
-  #w = w.replace("ß", "ss")
-  #w = ''.join(c for c in unicodedata.normalize('NFD', w) if unicodedata.category(c) != 'Mn')
-
-  # creating a space between a word and the punctuation following it
-  # eg: "he is a boy." => "he is a boy ."
-  # Reference:- https://stackoverflow.com/questions/3645931/python-padding-punctuation-with-white-spaces-keeping-punctuation
   w = re.sub(r"([?.!,¿])", r" \1 ", w)
   w = re.sub(r'[" "]+', " ", w)
 

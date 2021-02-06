@@ -1,3 +1,7 @@
 python-telegram-bot
 tensorflow
 pandas
+pickle
+os
+sys
+re
