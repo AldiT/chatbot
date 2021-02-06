@@ -74,7 +74,7 @@ Let's go through each of those:
 - On the rDany folder you will find data
 - On the models folder are the save trained models (names speak for themselves)
 - On the transformer_models are trained trasnformer models
-- General Slides are were we kept our log, meetings and stuff we wanted to share with eachother
+- General Slides are where we kept our log, meetings and stuff we wanted to share with eachother
 - There is also the final presentation on this folder
 
 To run the chatbot, you need to:
