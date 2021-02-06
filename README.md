@@ -93,8 +93,8 @@ The current chatbot uses the [Telegram ext package](https://python-telegram-bot.
 which allows the usage of different handlers and therefore is more advanced.
 
 # Sample Conversations
-1. Seq2Seq Model
+## 1.Seq2Seq Model
 ![Seq2Seq Conversation Snippet](./assets/seq2seq_snippet.png)
 
-2. Transformer Model
+## 2.Transformer Model
 ![Transformer Conversation Snippet](./assets/transformer_snippet.png)
