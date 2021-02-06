@@ -1,6 +1,6 @@
 
-#from model_v1.seq2seq_with_attention_glove import reply
-from model_v2.copy_of_transformer_one_tokenizer import answer as reply
+#from model_v1.seq2seq_with_attention import reply
+from model_v2.transformer import answer as reply
 
 def start_callback(update, context):
     """
