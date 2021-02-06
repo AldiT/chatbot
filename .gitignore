@@ -1,3 +1,24 @@
 data/
 
 __pycache__
+.idea/
+#chatbot folder
+chatbot.zip
+chatbot/model_v1/model_1
+chatbot/model_v1/model_2_v3
+chatbot/model_v2/model_1/
+chatbot/model_v2/model_2
+chatbot/enwiki_20180420_100d.txt
+
+from_drive/
+
+#notebooks folder
+notebooks/cornell_movie_dialogue_sample.csv
+notebooks/input_docs.pkl
+notebooks/submission.csv
+notebooks/conversations.pkl
+notebooks/target_docs.pkl
+notebooks/training_model.h5
+notebooks/.ipynb_checkpoints/
+notebooks/training_checkpoints/
+notebooks/bot_test.ipynb

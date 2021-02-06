@@ -1,8 +1,9 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[4]:
-
+"""
+This file implements the seq2seq inference model which is used from the chatbot API
+"""
 
 import tensorflow as tf
 from tensorflow.keras.preprocessing.text import Tokenizer
@@ -23,16 +24,21 @@ import os
 import sys
 import re
 
+#Read the human lines
 with open("../from_drive/english_human.pkl", "rb") as handle:
     human_lines = pkl.load(handle)
 
+#Read the bot lines
 with open("../from_drive/english_robot.pkl", "rb") as handle:
     robot_lines = pkl.load(handle)
 
 
-import re
 
 def decontracted(phrase):
+    """
+    :param phrase: Sentence passed to this code
+    :return: The same sentence with short forms such as "don't" dialated to their extended form e.g. do not
+    """
     # specific
     phrase = re.sub(r"won\'t", "will not", phrase)
     phrase = re.sub(r"can\'t", "can not", phrase)
@@ -48,7 +54,7 @@ def decontracted(phrase):
     phrase = re.sub(r"\'m", " am", phrase)
     return phrase
 
-
+#Decontract the dataset
 for i, line in tqdm(enumerate(human_lines)):
     human_lines[i] = decontracted(line)
 
@@ -56,20 +62,16 @@ for i, line in tqdm(enumerate(robot_lines)):
     robot_lines[i] = decontracted(line)
 
 
-
+#preprocessing
 human_lines = [re.sub(r"\[\w+\]",'hi',line) for line in human_lines]
 human_lines = [" ".join(re.findall(r"\w+",line)) for line in human_lines]
 robot_lines = [re.sub(r"\[\w+\]",'',line) for line in robot_lines]
 robot_lines = [" ".join(re.findall(r"\w+",line)) for line in robot_lines]
 # grouping lines by response pair
 pairs = list(zip(human_lines,robot_lines))
-#random.shuffle(pairs)
-len(pairs)
 
 
-# In[10]:
-
-
+#Get the dataset in a numeric form and add start and end tokens
 input_docs = []
 target_docs = []
 input_tokens = set()
@@ -100,13 +102,13 @@ num_tokens = len(set(input_tokens + target_tokens)) + 2 # [UNK]
 pairs = list(zip(input_docs, target_docs))
 
 
-
+#Set the vocab size
 vocab_size = 30000 + 1
 units = 1024
 embedding_dim = 100
 
 
-
+#Create and fit the tokenizer
 tokenizer = Tokenizer(filters='', oov_token="<unk>")
 tokenizer.fit_on_texts(input_docs + target_docs)
 
@@ -134,13 +136,14 @@ for r in final_tar_docs_tokenized:
   
 max_len
 
-
+#Create the dataset
 X = final_in_docs_tokenized
 Y = final_tar_docs_tokenized
 
 X = tf.keras.preprocessing.sequence.pad_sequences(X, padding='pre')
 Y = tf.keras.preprocessing.sequence.pad_sequences(Y, padding='pre')
 
+#Delete all the now unnecessary blocks of memory
 del final_in_docs_tokenized
 del final_tar_docs_tokenized
 del input_docs
@@ -161,6 +164,7 @@ BUFFER_SIZE = len(X_train)
 BATCH_SIZE = 64
 steps_per_epoch = len(X_train)//BATCH_SIZE
 
+#Load the encoder and decoder layer
 with open("./model_v1/model_2_v3/encoder_embedding_layer.pkl", "rb") as handle:
     encoder_embedding_layer_weights = pkl.load(handle)
 
@@ -209,7 +213,7 @@ class EncoderAttention(tf.keras.Model):
 
 encoder = EncoderAttention(vocab_size, embedding_dim, units)
 
-
+##Run it to initialize everything, lazy execution of tf --> all the weights are empty until the first run
 # Test  the encoder
 sample_initial_state = encoder.initialize_hidden_state()
 sample_output, sample_h, sample_c = encoder(example_x, sample_initial_state)
@@ -318,6 +322,12 @@ def preprocess_sentence(w):
     return w
 
 def reply(sentence, preprocess=True):
+    """
+
+    :param sentence: The sentence to be processed and passed through the model
+    :param preprocess: Set this flag to True if you want to also apply the preprocessing steps
+    :return: The response sentence from the model
+    """
 
     if preprocess:
         sentence = preprocess_sentence(sentence)
