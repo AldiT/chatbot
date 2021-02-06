@@ -80,7 +80,7 @@ Let's go through each of those:
 To run the chatbot, you need to:
 1. Clone this repo
 2. Download the ```transformer_models/with_embeddings/model_2``` folder on Gdrive
-3. Install all packaged in ```requirements.txt```
+3. Install all packages in ```requirements.txt```
 4. Make sure to place the downloaded model_2 folder on the ```chatb`ot/model_v2/``` folder
 5. ```cd chatbot```
 6. ```python -m bot.bot```
