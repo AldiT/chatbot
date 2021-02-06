@@ -1,5 +1,6 @@
 
-from model_v1.seq2seq_with_attention_glove import reply
+#from model_v1.seq2seq_with_attention_glove import reply
+from model_v2.copy_of_transformer_one_tokenizer import answer as reply
 
 def start_callback(update, context):
     msg = "Welcome to this chat! My name is Dwayne but some call me rDany (cause I am a robot, and I like the name Dany). How can I help you!"
